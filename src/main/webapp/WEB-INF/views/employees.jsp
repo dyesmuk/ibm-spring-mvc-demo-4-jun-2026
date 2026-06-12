@@ -1,34 +1,32 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib uri="jakarta.tags.core" prefix="c"%>
 
 <html>
 <head>
-    <title>Employees</title>
+
 </head>
 
 <body>
 
-<h2>Employee List</h2>
+	<h1>Employee List</h1>
 
-<table border="1" cellpadding="10">
+	<table>
+		<tr>
+			<th>Id</th>
+			<th>Name</th>
+			<th>Salary</th>
+		</tr>
+		<c:forEach items="${employees}" var="emp">
 
-<tr>
-    <th>ID</th>
-    <th>Name</th>
-    <th>Salary</th>
-</tr>
+			<tr>
+				<td>${emp.id}</td>
+				<td>${emp.name}</td>
+				<td>${emp.salary}</td>
+			</tr>
 
-<c:forEach items="${employees}" var="emp">
+		</c:forEach>
 
-<tr>
-    <td>${emp.id}</td>
-    <td>${emp.name}</td>
-    <td>${emp.salary}</td>
-</tr>
-
-</c:forEach>
-
-</table>
+	</table>
 
 </body>
 </html>
