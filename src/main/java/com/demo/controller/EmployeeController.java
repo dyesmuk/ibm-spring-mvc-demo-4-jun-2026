@@ -1,29 +1,22 @@
 package com.demo.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.demo.model.Employee;
 import com.demo.service.EmployeeService;
-import org.springframework.ui.Model;
 
 @Controller
 public class EmployeeController {
 
-	EmployeeService employeeService = new EmployeeService();
-
-//	@GetMapping("/employees")
-//	@ResponseBody
-//	public String getAllEmployees() {
-//		List<Employee> employeeList = new ArrayList<Employee>(Arrays.asList(new Employee(), new Employee()));
-//		System.out.println(employeeList);
-//		return employeeList.toString();
-//	}
+	@Autowired
+	private EmployeeService employeeService;
 
 	@GetMapping("/employees")
 	public String getEmployees(Model model) {
@@ -32,19 +25,30 @@ public class EmployeeController {
 		return "employees";
 	}
 
-//	@GetMapping("/employees")
-//	@ResponseBody
-//	public List<Employee> getAllEmployees() {
-//		List<Employee> employeeList = new ArrayList<Employee>(Arrays.asList(new Employee(), new Employee()));
-//		System.out.println(employeeList);
-//		return employeeList;
-//	}
+	@GetMapping("/employees/find")
+	public String findEmployeeById(@RequestParam("id") int id, Model model) {
+		Employee emp = employeeService.getEmployeeById(id);
+		if (emp != null) {
+			model.addAttribute("foundEmployee", emp);
+		} else {
+			model.addAttribute("notFound", "No employee found with ID: " + id);
+		}
+		model.addAttribute("employees", employeeService.getAllEmployees());
+		return "employees";
+	}
 
-//	getAllEmployees()
-//	getEmployeeById()
-//	getEmployeeByName()
-//	addEmployee()
-//	updateEmployee()
-//	deleteEmployee()
+	@PostMapping("/employees/add")
+	public String addEmployee(@RequestParam("id") int id, @RequestParam("name") String name,
+			@RequestParam("salary") double salary, Model model) {
+		Employee employee = new Employee(id, name, salary);
+		employeeService.addEmployee(employee);
+		model.addAttribute("employees", employeeService.getAllEmployees());
+		model.addAttribute("message", "Employee added successfully!");
+		return "employees";
+	}
+
+//  getEmployeeByName()
+//  updateEmployee()
+//  deleteEmployee()
 
 }
