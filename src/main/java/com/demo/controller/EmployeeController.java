@@ -14,7 +14,6 @@ import com.demo.model.Employee;
 
 @Controller
 public class EmployeeController {
-
 	
 	@GetMapping("/employees")
 	@ResponseBody
@@ -23,7 +22,6 @@ public class EmployeeController {
 		System.out.println(employeeList);
 		return employeeList.toString();
 	}
-
 
 	
 //	@GetMapping("/employees")
